@@ -1,4 +1,4 @@
-[![Unit-Testing](https://github.com/BrandonFoster/softloq-unicode-hpp/actions/workflows/tests.yml/badge.svg)](https://github.com/BrandonFoster/softloq-charset-encoding-hpp/actions/workflows/tests.yml)
+[![Unit-Testing](https://github.com/BrandonFoster/softloq-charset-encoding-hpp/actions/workflows/tests.yml/badge.svg)](https://github.com/BrandonFoster/softloq-charset-encoding-hpp/actions/workflows/tests.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ### Version 1.0.0
