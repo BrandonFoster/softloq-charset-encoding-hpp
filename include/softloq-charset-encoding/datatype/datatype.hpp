@@ -12,7 +12,7 @@ namespace Softloq::Charset::Datatype
      */
     struct Byte
     {
-        uint8_t value;
+        uint8_t value = {};
 
         SOFTLOQ_CHARSET_ENCODING_API inline Byte &operator=(const uint8_t value)
         {
@@ -31,7 +31,7 @@ namespace Softloq::Charset::Datatype
      */
     struct Codepoint
     {
-        char32_t value;
+        char32_t value = {};
 
         SOFTLOQ_CHARSET_ENCODING_API inline Codepoint &operator=(const uint32_t value)
         {
