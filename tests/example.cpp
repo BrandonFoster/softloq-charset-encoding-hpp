@@ -1,6 +1,8 @@
 // #include <catch2/catch_test_macros.hpp>
 #include <Softloq-Charset-Encoding/DataType/datatype.hpp>
 #include <Softloq-Charset-Encoding/ADT/list.hpp>
+#include <Softloq-Charset-Encoding/ADT/stack.hpp>
+#include <Softloq-Charset-Encoding/ADT/queue.hpp>
 #include <iostream>
 
 int main()
@@ -12,18 +14,16 @@ int main()
     std::cout << b << std::endl;
     std::cout << "Size: " << sizeof(const Byte) << std::endl;
 
-    List<Byte> byte_list;
-    byte_list.appendItem({0xF3});
-    byte_list.appendItem({0x36});
-    byte_list.appendItem({0xAE});
-    byte_list.appendItem({0x4F});
-    List<Byte> byte_list2 = byte_list.sortListAscendingOrder();
-    for (auto it = byte_list2.begin(); it != byte_list2.end(); ++it)
-    {
-        std::cout << "Test1: " << *it << std::endl;
-    }
-    for (auto it = byte_list.begin(); it != byte_list.end(); ++it)
-    {
-        std::cout << "Test2: " << *it << std::endl;
-    }
+    Queue<Byte> byte_list;
+    byte_list.enqueueItem({0xF3});
+    byte_list.enqueueItem({0x36});
+    byte_list.enqueueItem({0xAE});
+    byte_list.enqueueItem({0x4F});
+    std::cout << "Last Value: " << byte_list.peekQueue().value() << std::endl;
+    Queue<Byte> byte_list2 = byte_list.sortListAscendingOrder();
+    while (!byte_list.isEmpty())
+        std::cout << "Test1: " << byte_list.dequeueItem().value() << std::endl;
+    while (!byte_list2.isEmpty())
+        std::cout << "Test2: " << byte_list2.dequeueItem().value() << std::endl;
+    Stack<Byte> stack;
 }

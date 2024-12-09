@@ -11,14 +11,13 @@ namespace Softloq::Charset
     template <class T>
     class List
     {
-    private:
+    public:
         struct Node
         {
             T item;
             Node *prev, *next;
         };
 
-    public:
         // Iterators
 
         class BaseIterator
@@ -34,6 +33,7 @@ namespace Softloq::Charset
             SOFTLOQ_CHARSET_ENCODING_API BaseIterator(Node *prev, Node *curr);
             SOFTLOQ_CHARSET_ENCODING_API BaseIterator(const BaseIterator &it);
             SOFTLOQ_CHARSET_ENCODING_API virtual ~BaseIterator() = 0;
+
             SOFTLOQ_CHARSET_ENCODING_API inline constexpr bool operator==(const BaseIterator &rhs) const { return prev == rhs.prev && curr == rhs.curr; }
             SOFTLOQ_CHARSET_ENCODING_API inline constexpr bool operator!=(const BaseIterator &rhs) const { return prev != rhs.prev || curr != rhs.curr; }
 
@@ -50,9 +50,9 @@ namespace Softloq::Charset
             using pointer = BaseIterator::pointer;
             using reference = BaseIterator::reference;
 
-            SOFTLOQ_CHARSET_ENCODING_API inline Iterator();
-            SOFTLOQ_CHARSET_ENCODING_API inline Iterator(Node *prev, Node *curr);
-            SOFTLOQ_CHARSET_ENCODING_API inline Iterator(const Iterator &it);
+            SOFTLOQ_CHARSET_ENCODING_API Iterator();
+            SOFTLOQ_CHARSET_ENCODING_API Iterator(Node *prev, Node *curr);
+            SOFTLOQ_CHARSET_ENCODING_API Iterator(const Iterator &it);
 
             SOFTLOQ_CHARSET_ENCODING_API inline Iterator &operator++()
             {
@@ -103,9 +103,9 @@ namespace Softloq::Charset
             using pointer = BaseIterator::pointer;
             using reference = BaseIterator::reference;
 
-            SOFTLOQ_CHARSET_ENCODING_API inline ReverseIterator();
-            SOFTLOQ_CHARSET_ENCODING_API inline ReverseIterator(Node *prev, Node *curr);
-            SOFTLOQ_CHARSET_ENCODING_API inline ReverseIterator(const ReverseIterator &it);
+            SOFTLOQ_CHARSET_ENCODING_API ReverseIterator();
+            SOFTLOQ_CHARSET_ENCODING_API ReverseIterator(Node *prev, Node *curr);
+            SOFTLOQ_CHARSET_ENCODING_API ReverseIterator(const ReverseIterator &it);
 
             SOFTLOQ_CHARSET_ENCODING_API inline ReverseIterator &operator++()
             {
@@ -163,8 +163,8 @@ namespace Softloq::Charset
         SOFTLOQ_CHARSET_ENCODING_API ~List();
         SOFTLOQ_CHARSET_ENCODING_API List(const List<T> &list);
         SOFTLOQ_CHARSET_ENCODING_API List<T> &operator=(const List<T> &list);
-        SOFTLOQ_CHARSET_ENCODING_API inline List(List<T> &&list);
-        SOFTLOQ_CHARSET_ENCODING_API inline List<T> &operator=(List<T> &&list);
+        SOFTLOQ_CHARSET_ENCODING_API List(List<T> &&list);
+        SOFTLOQ_CHARSET_ENCODING_API List<T> &operator=(List<T> &&list);
 
         // Range-based for loop support
 
@@ -202,10 +202,11 @@ namespace Softloq::Charset
         SOFTLOQ_CHARSET_ENCODING_API List<T> sortListAscendingOrder();
         SOFTLOQ_CHARSET_ENCODING_API List<T> sortListDescendingOrder();
 
-    private:
+    protected:
         Node *front, *back;
         size_type size;
 
+    private:
         // Auxiliary member functions
 
         SOFTLOQ_CHARSET_ENCODING_API Node *mergeSort(Node *head, const std::function<const bool(const T &, const T &)> &cond);
