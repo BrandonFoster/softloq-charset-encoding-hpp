@@ -1,10 +1,10 @@
-#ifndef SOFTLOQ_CHARSET_INTERFACE_DATATYPE_HPP
-#define SOFTLOQ_CHARSET_INTERFACE_DATATYPE_HPP
+#ifndef SOFTLOQ_CHARSET_ENCODING_DATATYPE_HPP
+#define SOFTLOQ_CHARSET_ENCODING_DATATYPE_HPP
 
-#include "softloq-charset-encoding/error.hpp"
+#include "Softloq-Charset-Encoding/error.hpp"
 #include <cstdint>
 
-namespace Softloq::Charset::Datatype
+namespace Softloq::Charset
 {
     /**
      * @brief Follows the behavior stated here: (https://infra.spec.whatwg.org/#byte).

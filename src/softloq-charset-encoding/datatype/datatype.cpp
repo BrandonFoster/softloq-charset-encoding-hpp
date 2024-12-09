@@ -1,9 +1,8 @@
-#include "softloq-charset-encoding/datatype/datatype.hpp"
+#include "Softloq-Charset-Encoding/DataType/datatype.hpp"
 #include <iostream>
 #include <iomanip>
 
-namespace Softloq::Charset::Datatype
-
+namespace Softloq::Charset
 {
     SOFTLOQ_CHARSET_ENCODING_API std::ostream &operator<<(std::ostream &out, const Byte c)
     {

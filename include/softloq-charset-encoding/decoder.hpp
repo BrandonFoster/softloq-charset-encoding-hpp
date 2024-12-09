@@ -1,7 +1,7 @@
 #ifndef SOFTLOQ_CHARSET_ENCODING_DECODER_HPP
 #define SOFTLOQ_CHARSET_ENCODING_DECODER_HPP
 
-#include "softloq-charset-encoding/error.hpp"
+#include "Softloq-Charset-Encoding/error.hpp"
 
 namespace Softloq::Charset
 {
