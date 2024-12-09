@@ -17,13 +17,13 @@ int main()
     byte_list.appendItem({0x36});
     byte_list.appendItem({0xAE});
     byte_list.appendItem({0x4F});
-    byte_list = byte_list.cloneList();
+    List<Byte> byte_list2 = byte_list.sortListAscendingOrder();
+    for (auto it = byte_list2.begin(); it != byte_list2.end(); ++it)
+    {
+        std::cout << "Test1: " << *it << std::endl;
+    }
     for (auto it = byte_list.begin(); it != byte_list.end(); ++it)
     {
-        std::cout << "Forward: " << *it << std::endl;
-    }
-    for (auto it = byte_list.rbegin(); it != byte_list.rend(); ++it)
-    {
-        std::cout << "Backward: " << *it << std::endl;
+        std::cout << "Test2: " << *it << std::endl;
     }
 }

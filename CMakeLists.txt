@@ -16,7 +16,7 @@ if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
 endif()
 
 # Catch2
-# include(CTest)
+include(CTest)
 # if(NOT TARGET Catch2)
 #     add_subdirectory(Catch2)
 # endif()

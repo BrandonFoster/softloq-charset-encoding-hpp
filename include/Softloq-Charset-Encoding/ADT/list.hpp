@@ -5,7 +5,6 @@
 #include <functional>
 #include <iterator>
 #include <list>
-#include <iostream>
 
 namespace Softloq::Charset
 {
@@ -200,8 +199,8 @@ namespace Softloq::Charset
         SOFTLOQ_CHARSET_ENCODING_API inline constexpr size_type isEmpty() const { return size == 0; }
         SOFTLOQ_CHARSET_ENCODING_API T &operator[](const size_type index) const;
         SOFTLOQ_CHARSET_ENCODING_API List<T> cloneList();
-        SOFTLOQ_CHARSET_ENCODING_API List<T> sortListAscending();
-        SOFTLOQ_CHARSET_ENCODING_API List<T> sortListDescending();
+        SOFTLOQ_CHARSET_ENCODING_API List<T> sortListAscendingOrder();
+        SOFTLOQ_CHARSET_ENCODING_API List<T> sortListDescendingOrder();
 
     private:
         Node *front, *back;
@@ -209,13 +208,9 @@ namespace Softloq::Charset
 
         // Auxiliary member functions
 
-        SOFTLOQ_CHARSET_ENCODING_API void mergeSort(
-            Node **left_node_ptr, Node **right_node_ptr, const size_type size,
-            const std::function<const bool(const T &, const T &)> &cond);
-
-        SOFTLOQ_CHARSET_ENCODING_API void merge(
-            Node **left_node_ptr, const size_type mid_size, Node **right_node_ptr,
-            const std::function<const bool(const T &, const T &)> &cond);
+        SOFTLOQ_CHARSET_ENCODING_API Node *mergeSort(Node *head, const std::function<const bool(const T &, const T &)> &cond);
+        SOFTLOQ_CHARSET_ENCODING_API Node *mergeSplit(Node *head);
+        SOFTLOQ_CHARSET_ENCODING_API Node *merge(Node *first, Node *second, const std::function<const bool(const T &, const T &)> &cond);
     };
 }
 #include "Softloq-Charset-Encoding/ADT/list.tpp"

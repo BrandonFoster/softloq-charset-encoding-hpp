@@ -241,60 +241,95 @@ namespace Softloq::Charset
         return clone;
     }
     template <class T>
-    SOFTLOQ_CHARSET_ENCODING_API List<T> List<T>::sortListAscending()
+    SOFTLOQ_CHARSET_ENCODING_API List<T> List<T>::sortListAscendingOrder()
     {
-        List<T> sorted = cloneList();
-        static const auto ascending_cond = [](const T &item1, const T &item2) -> const bool
-        { return item1 <= item2; };
-        if (sorted.getSize())
-            mergeSort(&sorted.front, &sorted.back, size, ascending_cond);
+        List<T> sorted{*this};
+        static constexpr auto cond = std::less_equal<T>();
+        sorted.front = mergeSort(sorted.front, cond);
+        Node *back = sorted.front;
+        while (back && back->next)
+            back = back->next;
+        sorted.back = back;
         return sorted;
     }
     template <class T>
-    SOFTLOQ_CHARSET_ENCODING_API List<T> List<T>::sortListDescending()
+    SOFTLOQ_CHARSET_ENCODING_API List<T> List<T>::sortListDescendingOrder()
     {
-        List<T> sorted;
-        static const auto descending_cond = [](const T &item1, const T &item2) -> const bool
-        { return item1 > item2; };
-        if (sorted.getSize())
-            mergeSort(&sorted.front, &sorted.back, size, descending_cond);
+        List<T> sorted{*this};
+        static constexpr auto cond = std::greater<T>();
+        sorted.front = mergeSort(sorted.front, cond);
+        Node *back = sorted.front;
+        while (back && back->next)
+            back = back->next;
+        sorted.back = back;
         return sorted;
     }
 
     template <class T>
-    SOFTLOQ_CHARSET_ENCODING_API void List<T>::mergeSort(
-        Node **left_node_ptr, Node **right_node_ptr, const size_type size,
-        const std::function<const bool(const T &, const T &)> &cond)
+    SOFTLOQ_CHARSET_ENCODING_API List<T>::Node *List<T>::mergeSort(Node *head, const std::function<const bool(const T &, const T &)> &cond)
     {
-        if (size <= 1)
-            return;
-        const size_type mid_size = size / 2;
-        Node *mid_node = *left_node_ptr;
-        for (size_type i = 0; i < mid_size - 1; ++i)
-            mid_node = mid_node->next;
-        if (size % 2)
+        // Base case: if the list is empty or has only one node, it is already sorted.
+        if (!head || !head->next)
+            return head;
+
+        // Split into two halves.
+        Node *second = mergeSplit(head);
+
+        // Recursively sort each half.
+        head = mergeSort(head, cond);
+        second = mergeSort(second, cond);
+
+        // Merge the two sorted halves.
+        return merge(head, second, cond);
+    }
+    template <class T>
+    SOFTLOQ_CHARSET_ENCODING_API List<T>::Node *List<T>::mergeSplit(Node *head)
+    {
+        Node *fast = head;
+        Node *slow = head;
+
+        // Move fast pointer two steps and slow pointer one step until fast reaches the end.
+        while (fast && fast->next && fast->next->next)
         {
-            // Divide
-            mergeSort(&mid_node->next, right_node_ptr, mid_size + 1, cond);
-            mergeSort(left_node_ptr, &mid_node, mid_size, cond);
+            fast = fast->next->next;
+            slow = slow->next;
+        }
 
-            // Conquer
-            merge(left_node_ptr, mid_size, right_node_ptr, cond);
+        // Split the list into two halves.
+        Node *temp = slow->next;
+        slow->next = nullptr;
+        if (temp)
+            temp->prev = nullptr;
+
+        return temp;
+    }
+    template <class T>
+    SOFTLOQ_CHARSET_ENCODING_API List<T>::Node *List<T>::merge(Node *first, Node *second, const std::function<const bool(const T &, const T &)> &cond)
+    {
+        // If either list is empty, return the other list.
+        if (!first)
+            return second;
+        if (!second)
+            return first;
+
+        // Pick the conditional value between first and second nodes.
+        if (cond(first->item, second->item))
+        {
+            // Recursively merge the rest of the lists and link the result to the current node.
+            first->next = merge(first->next, second, cond);
+            if (first->next)
+                first->next->prev = first;
+            first->prev = nullptr;
+            return first;
         }
         else
         {
-            // Divide
-            mergeSort(&mid_node->next, right_node_ptr, mid_size, cond);
-            mergeSort(left_node_ptr, &mid_node, mid_size, cond);
-
-            // Conquer
-            merge(left_node_ptr, mid_size, right_node_ptr, cond);
+            // Recursively merge the rest of the lists and link the result to the current node.
+            second->next = merge(first, second->next, cond);
+            if (second->next)
+                second->next->prev = second;
+            second->prev = nullptr;
+            return second;
         }
-    }
-    template <class T>
-    SOFTLOQ_CHARSET_ENCODING_API void List<T>::merge(
-        Node **left_node_ptr, const size_type mid_size, Node **right_node_ptr,
-        const std::function<const bool(const T &, const T &)> &cond)
-    {
     }
 }
