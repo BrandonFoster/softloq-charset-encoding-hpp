@@ -12,14 +12,28 @@ namespace Softloq::Charset
      */
     struct Byte
     {
-        uint8_t value = {};
+        using value_type = uint8_t;
+        value_type value = {};
 
-        SOFTLOQ_CHARSET_ENCODING_API inline Byte &operator=(const uint8_t value)
-        {
-            this->value = value;
-            return *this;
-        }
-        SOFTLOQ_CHARSET_ENCODING_API inline operator uint8_t() const { return value; }
+        SOFTLOQ_CHARSET_ENCODING_API Byte();
+
+        // The rule of five
+
+        SOFTLOQ_CHARSET_ENCODING_API ~Byte();
+        SOFTLOQ_CHARSET_ENCODING_API Byte(const Byte &byte);
+        SOFTLOQ_CHARSET_ENCODING_API Byte &operator=(const Byte &byte);
+        SOFTLOQ_CHARSET_ENCODING_API Byte(Byte &&byte);
+        SOFTLOQ_CHARSET_ENCODING_API Byte &operator=(Byte &&byte);
+
+        // Value type constructor/assigment
+
+        SOFTLOQ_CHARSET_ENCODING_API Byte(const value_type value);
+        SOFTLOQ_CHARSET_ENCODING_API Byte &operator=(const value_type value);
+
+        SOFTLOQ_CHARSET_ENCODING_API inline operator value_type() const { return value; }
+
+        // Output
+
         SOFTLOQ_CHARSET_ENCODING_API friend std::ostream &operator<<(std::ostream &out, const Byte c);
     };
     static_assert(sizeof(Byte) == 1, "Size of a Byte in the Character Set Encoding Standards must be 8-bits.");
@@ -31,16 +45,32 @@ namespace Softloq::Charset
      */
     struct Codepoint
     {
-        char32_t value = {};
+        using value_type = uint32_t;
+        value_type value;
 
-        SOFTLOQ_CHARSET_ENCODING_API inline Codepoint &operator=(const uint32_t value)
-        {
-            this->value = value;
-            return *this;
-        }
-        SOFTLOQ_CHARSET_ENCODING_API inline operator char32_t() const { return value; }
-        SOFTLOQ_CHARSET_ENCODING_API inline explicit operator uint32_t() const { return static_cast<uint32_t>(value); }
+        SOFTLOQ_CHARSET_ENCODING_API Codepoint();
+
+        // The rule of five
+
+        SOFTLOQ_CHARSET_ENCODING_API ~Codepoint();
+        SOFTLOQ_CHARSET_ENCODING_API Codepoint(const Codepoint &codepoint);
+        SOFTLOQ_CHARSET_ENCODING_API Codepoint &operator=(const Codepoint &codepoint);
+        SOFTLOQ_CHARSET_ENCODING_API Codepoint(Codepoint &&codepoint);
+        SOFTLOQ_CHARSET_ENCODING_API Codepoint &operator=(Codepoint &&codepoint);
+
+        // Value type constructor/assigment
+
+        SOFTLOQ_CHARSET_ENCODING_API Codepoint(const value_type value);
+        SOFTLOQ_CHARSET_ENCODING_API Codepoint &operator=(const value_type value);
+
+        SOFTLOQ_CHARSET_ENCODING_API inline operator value_type() const { return value; }
+        SOFTLOQ_CHARSET_ENCODING_API inline explicit operator char32_t() const { return static_cast<char32_t>(value); }
+
+        // Output
+
         SOFTLOQ_CHARSET_ENCODING_API friend std::ostream &operator<<(std::ostream &out, const Codepoint &c);
+
+        // Intra codepoint member functions
 
         SOFTLOQ_CHARSET_ENCODING_API inline constexpr bool isValid() const { return value <= 0x10FFFF; }
         SOFTLOQ_CHARSET_ENCODING_API inline constexpr bool isLeadingSurrogate() const { return 0xD800 <= value && value <= 0xD8FF; }
