@@ -16,10 +16,10 @@ if(NOT CMAKE_RUNTIME_OUTPUT_DIRECTORY)
 endif()
 
 # Catch2
-include(CTest)
-if(NOT TARGET Catch2)
-    add_subdirectory(Catch2)
-endif()
+# include(CTest)
+# if(NOT TARGET Catch2)
+#     add_subdirectory(Catch2)
+# endif()
 
 # Default values
 set(LIBRARY_TYPE STATIC)
@@ -44,8 +44,8 @@ target_compile_definitions(softloq-charset-encoding PRIVATE ${PRIVATE_DEFINITION
 # Unit testing
 if(BUILD_TESTING AND SOFTLOQ_CHARSET_ENCODING_BUILD_TESTING)
     add_executable(softloq-charset-encoding-test tests/example.cpp)
-    add_dependencies(softloq-charset-encoding-test softloq::charset-encoding Catch2::Catch2WithMain)
-    target_link_libraries(softloq-charset-encoding-test softloq::charset-encoding Catch2::Catch2WithMain)
-    include(Catch)
+    add_dependencies(softloq-charset-encoding-test softloq::charset-encoding) #Catch2::Catch2WithMain)
+    target_link_libraries(softloq-charset-encoding-test softloq::charset-encoding) #Catch2::Catch2WithMain)
+    # include(Catch)
     # catch_discover_tests(softloq-charset-encoding-test)
 endif()
